@@ -1,4 +1,3 @@
-# ============= Visual Studio =============
 .vs/
 *.suo
 *.user
@@ -28,7 +27,7 @@ appsettings.json
 appsettings.Development.json
 appsettings.*.json
 
-# EF Core Migrations history (om du inte checkar in dem)
+# EF Core Migrations history
 *Migrations/
 
 # Database files
@@ -46,7 +45,7 @@ IISExpress/
 *.publishproj
 ~$*
 
-# Node/npm artifacts (om du använder npm i wwwroot)
+# Node/npm artifacts 
 node_modules/
 
 # NuGet
