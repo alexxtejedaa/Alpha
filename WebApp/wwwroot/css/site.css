@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
-/* ============================= */
-/*          COLOR SCHEME         */
-/* ============================= */
 :root {
     --font-standard: "Nunito", sans-serif;
     --font-logo: "Comfortaa", sans-serif;
@@ -83,9 +80,6 @@
     --navlink-background-active-color: var(--blue-accent-10);
 }
 
-/* ============================= */
-/*        BASE STYLING           */
-/* ============================= */
 html, body {
     margin: 0;
     font-size: 16px;
@@ -96,7 +90,6 @@ html, body {
     background-color: var(--background-color);
 }
 
-/* Container-helpers */
 .center-screen {
     display: flex;
     justify-content: center;
@@ -111,7 +104,6 @@ html, body {
     height: 100%;
 }
 
-/* Cards, surfaces */
 .surface {
     padding: 2rem;
     border-radius: 16px;
@@ -119,14 +111,12 @@ html, body {
     box-shadow: 0 4px 4px 3px rgba(196, 196, 196, 0.1);
 }
 
-/* Form container */
 .form-auth {
     width: 400px;
     padding: 2rem 3rem;
     box-sizing: border-box;
 }
 
-/* Typography */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-standard);
     margin: 0;
@@ -163,7 +153,6 @@ h6 {
     font-weight: var(--font-semibold);
 }
 
-/* Buttons */
 .btn {
     border-radius: 16px;
     font-size: 1em;
@@ -200,9 +189,6 @@ h6 {
         background-color: var(--btn-gray-background-hover-color);
     }
 
-/* ============================= */
-/*       PORTAL LAYOUT           */
-/* ============================= */
 .portal {
     display: grid;
     grid-template-columns: minmax(50px, 270px) 1fr;
@@ -240,7 +226,6 @@ h6 {
         padding: 2rem;
     }
 
-/* Navlinks */
 .nav-links {
     margin: 2rem 0;
 }
@@ -270,7 +255,6 @@ h6 {
             background-color: var(--navlink-background-active-color);
         }
 
-/* Components */
 .alpha-logotype {
     font-size: 26px;
     font-weight: var(--font-bold);
@@ -282,14 +266,11 @@ h6 {
     gap: 0.5rem;
 }
 
-/* ============================= */
-/*   GEAR ICON + USER DROPDOWN   */
-/* ============================= */
 .top-right {
     display: flex;
     align-items: center;
     gap: 1rem;
-    position: relative; /* for absolute dropdown */
+    position: relative; 
 }
 
 .gear-trigger {
@@ -359,9 +340,6 @@ h6 {
     height: 20px;
 }
 
-/* ============================= */
-/*       PROJECTS LAYOUT         */
-/* ============================= */
 .projects-container {
     padding: 1rem 2rem;
 }
@@ -394,14 +372,12 @@ h6 {
         color: var(--blue-accent);
     }
 
-/* Projects grid */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1rem;
 }
 
-/* =========== 2-DOTS CARD LAYOUT ============ */
 .project-card {
     background-color: var(--surface-color);
     border-radius: 20px;
@@ -413,13 +389,13 @@ h6 {
     height: 250px;
     overflow: auto;
 }
-/* Placera trigger & dropdown relativt denna top-rad */
+
 .project-card-top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 0.5rem;
-    position: relative; /* anchoring dropdown */
+    position: relative; 
 }
 
 .project-left {
@@ -449,7 +425,6 @@ h6 {
     white-space: nowrap;
 }
 
-/* Ikoner i menyn (Edit, Delete) */
 .menu-icon {
     width: 16px;
     height: 16px;
@@ -477,7 +452,6 @@ h6 {
     color: var(--red-dark);
 }
 
-/* Namn & client */
 .project-info {
     display: flex;
     flex-direction: column;
@@ -496,7 +470,6 @@ h6 {
         color: var(--gray-700);
     }
 
-/* Beskrivning under top-raden */
 .project-description {
     font-size: 0.95rem;
     line-height: 1.4;
@@ -504,9 +477,6 @@ h6 {
     margin: 0;
 }
 
-/* ============================= */
-/*         MODAL STYLING         */
-/* ============================= */
 .modal {
     display: none;
     position: fixed;
@@ -516,43 +486,41 @@ h6 {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); /* lite mörkare bakgrund */
+    background-color: rgba(0, 0, 0, 0.5); 
 }
 
 .modal-content.custom-addproject-modal {
     background-color: var(--surface-color);
-    margin: 5% auto; /* placerar modalen lite högre än 10% */
-    padding: 2rem; /* lite mer padding */
+    margin: 5% auto; 
+    padding: 2rem; 
     border: 1px solid var(--border-color);
-    width: 400px; /* fast bredd */
+    width: 400px; 
     border-radius: 16px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     position: relative;
 }
 
-/* Modal Header: Rubriken över ikonen, i en kolumn */
 .modal-header {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* vänsterjusterad */
+    align-items: flex-start; 
     margin-bottom: 1rem;
 }
 
 .modal-title {
-    font-size: 25px; /* större rubrik enligt Figma */
+    font-size: 25px; 
     font-weight: var(--font-bold);
-    margin: 0 0 1rem 0; /* lite extra utrymme under rubriken */
+    margin: 0 0 1rem 0; 
     margin-left: -1rem;
 }
 
 .modal-icon {
-    width: 100px; /* fast ikonstorlek */
+    width: 100px; 
     height: 100px;
     object-fit: contain;
     margin-left: 6rem;
 }
 
-/* Formulärfält i modalen */
 .modal .form-group {
     margin-bottom: 0.5rem;
 }
@@ -560,7 +528,7 @@ h6 {
     .modal .form-group label {
         display: block;
         margin-bottom: 0.5rem;
-        font-size: 0.9rem; /* bra läsbar storlek */
+        font-size: 0.9rem; 
         font-weight: var(--font-semibold);
     }
 
@@ -573,24 +541,22 @@ h6 {
 }
 
 .date-row {
-    display: flex; /* sätter dem bredvid varann */
-    gap: 1rem; /* avstånd mellan divarna */
+    display: flex; 
+    gap: 1rem; 
 }
 
     .date-row > div {
-        flex: 1; /* låter de två kolumnerna bli lika breda */
+        flex: 1; 
     }
 
-/* Större "Create"-knapp */
 .create-btn {
     font-size: 1.1rem;
     font-weight: var(--font-semibold);
     padding: 0.5rem 1.8rem;
     width: 100%;
-    border-radius: 12px; /* rundare hörn */
+    border-radius: 12px; 
 }
 
-/* Stäng-knapp (övre högra hörnet) */
 .close-modal {
     color: var(--text-color);
     position: absolute;
