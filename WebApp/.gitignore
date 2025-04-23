@@ -1,0 +1,19 @@
+# ASP.NET Core standard
+bin/
+obj/
+
+# EFCore-migreringar (om du inte vill checka in dem)
+Migrations/
+
+# Konfigurationsfiler med connection strings eller hemligheter
+appsettings.json
+appsettings.Development.json
+appsettings.*.json
+
+# Database-filer (t.ex. SQLite, LocalDB m.m.)
+*.db
+*.mdf
+*.ldf
+
+# User-specific files
+*.user

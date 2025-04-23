@@ -1,0 +1,39 @@
+﻿@model WebApp.Models.LoginViewModel
+@{
+    Layout = "_CleanLayout";
+    ViewData["Title"] = "Login";
+}
+
+<div class="center-screen">
+    <div class="surface form-auth">
+        <h2 class="mb-4 text-center">Login</h2>
+
+        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+        <form method="post" asp-action="Login" asp-controller="Auth" novalidate>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" type="email" class="form-control" placeholder="Your email address" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe" class="form-check-label"></label>
+            </div>
+
+            <button type="submit" class="btn btn-blue w-100">Log In</button>
+        </form>
+
+        <p class="text-center mt-3">
+            Don't have an account?
+            <a href="@Url.Action("Register", "Auth")">Sign Up</a>
+        </p>
+    </div>
+</div>

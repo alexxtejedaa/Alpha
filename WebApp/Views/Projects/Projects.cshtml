@@ -1,0 +1,268 @@
+﻿@model WebApp.Models.ProjectsIndexViewModel
+@using WebApp.Models
+
+<!-- Quill CSS & JS -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+@{
+    Layout = "_PortalLayout";
+    ViewData["Title"] = "Projects";
+    var currentFilter = Model.CurrentFilter;
+}
+
+<div class="projects-container">
+    <header class="projects-header">
+        <div class="header-top">
+            <h2>Projects</h2>
+            <button class="btn btn-blue" id="addProjectBtn">+ Add Project</button>
+        </div>
+        <div class="filters">
+            <a class="filter-link @(currentFilter=="all"?"active":"")" href="?filter=all">All (@Model.AllCount)</a>
+            <a class="filter-link @(currentFilter=="started"?"active":"")" href="?filter=started">Started (@Model.StartedCount)</a>
+            <a class="filter-link @(currentFilter=="completed"?"active":"")" href="?filter=completed">Completed (@Model.CompletedCount)</a>
+        </div>
+    </header>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="validation-summary" style="color:red; margin-bottom:1rem;">
+            @Html.ValidationSummary()
+        </div>
+    }
+
+    <div class="projects-grid">
+        @foreach (var p in Model.FilteredProjects)
+        {
+            <div class="project-card"
+                 data-proj-id="@p.Id"
+                 data-start-date="@(p.StartDate?.ToString("yyyy-MM-dd") ?? "")"
+                 data-end-date="@(p.EndDate?.ToString("yyyy-MM-dd") ?? "")"
+                 data-budget="@(p.Budget?.ToString("0.##") ?? "")"
+                 data-status="@p.Status">
+                <div class="project-card-top">
+                    <div class="project-left">
+                        <img src="~/images/Projects-logo.svg" class="project-icon" alt="Icon" />
+                        <div class="project-info">
+                            <h6>@p.ProjectName</h6>
+                            <span class="client-name">@p.ClientName</span>
+                        </div>
+                    </div>
+                    <div class="project-menu-trigger">..</div>
+                    <div class="project-menu-dropdown">
+                        <button type="button" class="menu-item edit-btn">
+                            <img src="~/images/Editpil.svg" class="menu-icon" /> Edit
+                        </button>
+                        <form method="post" asp-action="DeleteProject" asp-controller="Projects" style="margin:0;">
+                            <input type="hidden" name="id" value="@p.Id" />
+                            <input type="hidden" name="filter" value="@currentFilter" />
+                            <button type="submit" class="menu-item delete-item"
+                                    onclick="return confirm('Are you sure?');">
+                                <img src="~/images/papperskorg.svg" class="menu-icon" /> Delete Project
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <p class="project-description">@Html.Raw(p.Description)</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- ADD-MODAL -->
+<div id="addProjectModal" class="modal">
+    <div class="modal-content custom-addproject-modal">
+        <span class="close-modal" id="closeAddModalBtn">&times;</span>
+        <div class="modal-header">
+            <h2 class="modal-title">Add Project</h2>
+            <img src="~/images/Projects-logo.svg" class="modal-icon" alt="Icon" />
+        </div>
+        <form id="addProjectForm" method="post" asp-action="AddProject" asp-controller="Projects">
+            <!-- fälten exakt som tidigare… -->
+            <div class="form-group">
+                <label for="Add_ProjectName">Project Name</label>
+                <input id="Add_ProjectName" name="ProjectName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="Add_ClientName">Client Name</label>
+                <input id="Add_ClientName" name="ClientName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="Add_DescriptionEditor">Description</label>
+                <div id="Add_DescriptionEditor" style="min-height:8rem;border:1px solid #ccc;"></div>
+                <input type="hidden" id="Add_Description" name="Description" />
+            </div>
+            <div class="form-group date-row">
+                <div>
+                    <label for="Add_StartDate">Start Date</label>
+                    <input type="date" id="Add_StartDate" name="StartDate" class="form-control" />
+                </div>
+                <div>
+                    <label for="Add_EndDate">End Date</label>
+                    <input type="date" id="Add_EndDate" name="EndDate" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Add_Budget">Budget</label>
+                <input type="number" id="Add_Budget" name="Budget" class="form-control" min="0" step="0.01" value="0" />
+            </div>
+            <div class="form-group">
+                <label for="Add_Status">Status</label>
+                <select id="Add_Status" name="Status" class="form-control">
+                    <option value="Started">Started</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-blue create-btn">Create</button>
+        </form>
+    </div>
+</div>
+
+<!-- EDIT‑MODAL -->
+<div id="editProjectModal" class="modal">
+    <div class="modal-content custom-addproject-modal">
+        <span class="close-modal" id="closeEditModalBtn">&times;</span>
+        <div class="modal-header">
+            <h2 class="modal-title">Edit Project</h2>
+            <img src="~/images/Projects-logo.svg" class="modal-icon" alt="Icon" />
+        </div>
+        <form id="editProjectForm" method="post" action="">
+            <input type="hidden" id="Edit_Id" name="Id" />
+            <input type="hidden" name="filter" value="@currentFilter" />
+
+            <div class="form-group">
+                <label for="Edit_ProjectName">Project Name</label>
+                <input type="text" id="Edit_ProjectName" name="ProjectName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="Edit_ClientName">Client Name</label>
+                <input type="text" id="Edit_ClientName" name="ClientName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="Edit_DescriptionEditor">Description</label>
+                <div id="Edit_DescriptionEditor" style="min-height:8rem;border:1px solid #ccc;"></div>
+                <input type="hidden" id="Edit_Description" name="Description" />
+            </div>
+            <div class="form-group date-row">
+                <div>
+                    <label for="Edit_StartDate">Start Date</label>
+                    <input type="date" id="Edit_StartDate" name="StartDate" class="form-control" />
+                </div>
+                <div>
+                    <label for="Edit_EndDate">End Date</label>
+                    <input type="date" id="Edit_EndDate" name="EndDate" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Edit_Budget">Budget</label>
+                <input type="number" id="Edit_Budget" name="Budget" class="form-control" min="0" step="0.01" />
+            </div>
+            <div class="form-group">
+                <label for="Edit_Status">Status</label>
+                <select id="Edit_Status" name="Status" class="form-control">
+                    <option value="Started">Started</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-blue create-btn">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const currentFilter = '@currentFilter';
+
+        // —••• Dots-menu logic
+        const triggers  = document.querySelectorAll('.project-menu-trigger'),
+              dropdowns = document.querySelectorAll('.project-menu-dropdown');
+        triggers.forEach(t => {
+          t.addEventListener('click', e => {
+            e.stopPropagation();
+            dropdowns.forEach(dd => dd.style.display = 'none');
+            t.nextElementSibling.style.display = 'block';
+          });
+        });
+        document.addEventListener('click', () => dropdowns.forEach(dd => dd.style.display = 'none'));
+
+        // —••• Modal show/hide
+        const addBtn   = document.getElementById('addProjectBtn'),
+              addMod   = document.getElementById('addProjectModal'),
+              closeAdd = document.getElementById('closeAddModalBtn'),
+              editMod  = document.getElementById('editProjectModal'),
+              closeEdit= document.getElementById('closeEditModalBtn'),
+              editForm = document.getElementById('editProjectForm'),
+              editBtns = document.querySelectorAll('.edit-btn');
+
+        addBtn.addEventListener('click', () => addMod.style.display = 'block');
+        closeAdd.addEventListener('click', () => addMod.style.display = 'none');
+        window.addEventListener('click', e => { if (e.target === addMod) addMod.style.display = 'none'; });
+
+        closeEdit.addEventListener('click', () => editMod.style.display = 'none');
+        window.addEventListener('click', e => { if (e.target === editMod) editMod.style.display = 'none'; });
+
+        // —••• Quill init
+        const quillAdd  = new Quill('#Add_DescriptionEditor', {
+          theme: 'snow',
+          modules:{ toolbar:[
+            ['bold','italic','underline'],
+            [{align:''},{align:'center'},{align:'right'}],
+            [{list:'ordered'},{list:'bullet'}],
+            ['link']
+          ]}
+        });
+        const quillEdit = new Quill('#Edit_DescriptionEditor', {
+          theme: 'snow',
+          modules:{ toolbar:[
+            ['bold','italic','underline'],
+            [{align:''},{align:'center'},{align:'right'}],
+            [{list:'ordered'},{list:'bullet'}],
+            ['link']
+          ]}
+        });
+
+        // —••• Öppna & fyll edit‑modal
+        editBtns.forEach(btn => btn.addEventListener('click', () => {
+          const card = btn.closest('.project-card'),
+                id   = card.dataset.projId;
+
+          // matcha ruta i controllern: [HttpPost("edit/{id}")]
+          editForm.setAttribute('action', `/projects/edit/${id}?filter=${currentFilter}`);
+
+          document.getElementById('Edit_Id').value          = id;
+          document.getElementById('Edit_ProjectName').value = card.querySelector('h6').textContent.trim();
+          document.getElementById('Edit_ClientName').value  = card.querySelector('.client-name').textContent.trim();
+          quillEdit.root.innerHTML                          = card.querySelector('.project-description').innerHTML.trim();
+          document.getElementById('Edit_StartDate').value   = card.dataset.startDate;
+          document.getElementById('Edit_EndDate').value     = card.dataset.endDate;
+          document.getElementById('Edit_Budget').value      = card.dataset.budget;
+          document.getElementById('Edit_Status').value      = card.dataset.status;
+
+          editMod.style.display = 'block';
+        }));
+
+        // —••• Kopiera Quill → hidden före submit
+        document.getElementById('addProjectForm').addEventListener('submit', () => {
+          document.getElementById('Add_Description').value = quillAdd.root.innerHTML;
+        });
+        editForm.addEventListener('submit', () => {
+          document.getElementById('Edit_Description').value = quillEdit.root.innerHTML;
+        });
+
+        // —••• Enkel JS‑validering
+        function attachValidation(formId, nameId, startId, endId, budgetId) {
+          const form = document.getElementById(formId);
+          form.addEventListener('submit', e => {
+            const name = document.getElementById(nameId).value.trim(),
+                  sd   = document.getElementById(startId).value,
+                  ed   = document.getElementById(endId).value,
+                  bud  = parseFloat(document.getElementById(budgetId).value) || 0;
+            if (!name)                          { alert('Name is required'); e.preventDefault(); return; }
+            if (sd && ed && new Date(sd)>new Date(ed)) { alert('Start date must be before end date'); e.preventDefault(); return; }
+            if (bud < 0)                        { alert('Budget cannot be negative'); e.preventDefault(); return; }
+          });
+        }
+        attachValidation('addProjectForm',  'Add_ProjectName',  'Add_StartDate',  'Add_EndDate',  'Add_Budget');
+        attachValidation('editProjectForm', 'Edit_ProjectName', 'Edit_StartDate', 'Edit_EndDate', 'Edit_Budget');
+    </script>
+}
