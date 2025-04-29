@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
 
+// Enstaka kommentarer för förtydligande när AI har varit till hjälp. 
+
 namespace WebApp.Controllers
 {
-    [Authorize]                // ← Alla actions kräver inloggning om inte annat anges
+    [Authorize]                // Alla actions kräver inloggning om inte annat anges
     public class AuthController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -20,11 +22,11 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]        // ← Tillåt även oinloggade
+        [AllowAnonymous]        // Tillåter även oinloggade
         public IActionResult Register() => View();
 
         [HttpPost]
-        [AllowAnonymous]        // ← Tillåt även oinloggade
+        [AllowAnonymous]        // Tillåter även oinloggade
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
@@ -44,11 +46,11 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]        // ← Tillåt även oinloggade
+        [AllowAnonymous]        // Tillåt även oinloggade
         public IActionResult Login() => View();
 
         [HttpPost]
-        [AllowAnonymous]        // ← Tillåt även oinloggade
+        [AllowAnonymous]        // Tillåt även oinloggade
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -67,7 +69,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize]             // ← Kräver inloggning
+        [Authorize]             // Kräver inloggning
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {

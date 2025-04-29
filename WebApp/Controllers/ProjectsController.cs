@@ -3,16 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
 using WebApp.Services;
 
+// Enstaka kommentarer för förtydligande när AI har varit till hjälp. 
+
 namespace WebApp.Controllers
 {
-    [Authorize]           // ← Kräver inloggning
+    [Authorize]           // Kräver inloggning
     [Route("projects")]
     public class ProjectsController : Controller
     {
         private readonly IProjectService _service;
         public ProjectsController(IProjectService service) => _service = service;
 
-        // INDEX
         [HttpGet("")]
         public IActionResult Projects(string? filter)
         {

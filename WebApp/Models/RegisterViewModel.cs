@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+// Modellerna har jag delvis använt AI, dock är de väldigt enkla och förklarar sig själva //
+
 namespace WebApp.Models
 {
     public class RegisterViewModel

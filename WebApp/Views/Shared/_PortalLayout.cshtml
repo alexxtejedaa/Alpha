@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@* <Navigationsmeny, logotyp och användarinfo-sektion för huvudsidorna i applikationen/> *@
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,31 +23,25 @@
             @await Html.PartialAsync("Partials/Components/_NavLinks")
         </div>
 
-        <!-- TOP AREA -->
         <div class="top">
-            <!-- tomt fält till vänster -->
+
             <div></div>
 
-            <!-- gear + user + dropdown -->
             <div class="top-right">
-                <!-- gear-ikon (klickbar) -->
+
                 <div class="gear-trigger" id="gearTrigger">
                     <img src="~/images/gear-solid.svg" alt="Settings" class="gear-icon" />
                 </div>
 
-                <!-- user-ikon (synlig alltid) -->
                 <img src="~/images/circle-user-solid.svg" alt="User" class="profile-avatar" />
 
-                <!-- dropdown, dold tills klick -->
                 <div class="settings-dropdown" id="settingsDropdown">
                     <div class="settings-user-info">
                         <img src="~/images/circle-user-solid.svg" alt="User" class="profile-avatar" />
 
-                        <!-- ( NEW CODE START ) - Visa claim "FullName" i stället för .Name -->
                         <span>
                             @User.FindFirst("FullName")?.Value
                         </span>
-                        <!-- ( NEW CODE END ) -->
                     </div>
 
                     <form method="post" asp-action="Logout" asp-controller="Auth" class="logout-row">
@@ -57,7 +53,6 @@
                 </div>
             </div>
         </div>
-        <!-- END TOP -->
 
         <div class="main">
             @RenderBody()

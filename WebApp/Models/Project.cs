@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
+// Modellerna har jag delvis använt AI, dock är de väldigt enkla och förklarar sig själva //
+
 namespace WebApp.Models
 {
     public class Project
@@ -16,15 +18,11 @@ namespace WebApp.Models
 
         public string Description { get; set; } = "";
 
-        // Datumfält för Figma-design
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
-        // Budget, med decimal(18,2) => se OnModelCreating i ApplicationDbContext
         public decimal? Budget { get; set; } = 0;
 
-        // Status: "Started" eller "Completed" (eller "All" i filter). 
-        // Du vill kanske defaulta till "Started" om du inte vill ha "Planned".
         public string Status { get; set; } = "Started";
     }
 }

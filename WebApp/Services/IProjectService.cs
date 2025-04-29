@@ -2,6 +2,9 @@
 using WebApp.Models;
 
 namespace WebApp.Services
+
+// Definerar ett abstraherat kontrakt för CRUD-operationer, filtrering och räkning av projekt-entiteter. 
+
 {
     public interface IProjectService
     {

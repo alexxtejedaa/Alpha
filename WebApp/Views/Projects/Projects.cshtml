@@ -1,7 +1,6 @@
 ﻿@model WebApp.Models.ProjectsIndexViewModel
 @using WebApp.Models
 
-<!-- Quill CSS & JS -->
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
@@ -10,6 +9,8 @@
     ViewData["Title"] = "Projects";
     var currentFilter = Model.CurrentFilter;
 }
+
+<!-- Razor-vy som visar en filterbar lista över projekt med möjligheter att skapa, redigera och ta bort projekt via modaler och Quill-editor. -->
 
 <div class="projects-container">
     <header class="projects-header">
@@ -78,7 +79,6 @@
             <img src="~/images/Projects-logo.svg" class="modal-icon" alt="Icon" />
         </div>
         <form id="addProjectForm" method="post" asp-action="AddProject" asp-controller="Projects">
-            <!-- fälten exakt som tidigare… -->
             <div class="form-group">
                 <label for="Add_ProjectName">Project Name</label>
                 <input id="Add_ProjectName" name="ProjectName" class="form-control" required />
@@ -173,7 +173,6 @@
     <script>
         const currentFilter = '@currentFilter';
 
-        // —••• Dots-menu logic
         const triggers  = document.querySelectorAll('.project-menu-trigger'),
               dropdowns = document.querySelectorAll('.project-menu-dropdown');
         triggers.forEach(t => {
@@ -185,7 +184,6 @@
         });
         document.addEventListener('click', () => dropdowns.forEach(dd => dd.style.display = 'none'));
 
-        // —••• Modal show/hide
         const addBtn   = document.getElementById('addProjectBtn'),
               addMod   = document.getElementById('addProjectModal'),
               closeAdd = document.getElementById('closeAddModalBtn'),
@@ -201,7 +199,6 @@
         closeEdit.addEventListener('click', () => editMod.style.display = 'none');
         window.addEventListener('click', e => { if (e.target === editMod) editMod.style.display = 'none'; });
 
-        // —••• Quill init
         const quillAdd  = new Quill('#Add_DescriptionEditor', {
           theme: 'snow',
           modules:{ toolbar:[
@@ -221,12 +218,10 @@
           ]}
         });
 
-        // —••• Öppna & fyll edit‑modal
         editBtns.forEach(btn => btn.addEventListener('click', () => {
           const card = btn.closest('.project-card'),
                 id   = card.dataset.projId;
 
-          // matcha ruta i controllern: [HttpPost("edit/{id}")]
           editForm.setAttribute('action', `/projects/edit/${id}?filter=${currentFilter}`);
 
           document.getElementById('Edit_Id').value          = id;
@@ -241,7 +236,6 @@
           editMod.style.display = 'block';
         }));
 
-        // —••• Kopiera Quill → hidden före submit
         document.getElementById('addProjectForm').addEventListener('submit', () => {
           document.getElementById('Add_Description').value = quillAdd.root.innerHTML;
         });
@@ -249,7 +243,6 @@
           document.getElementById('Edit_Description').value = quillEdit.root.innerHTML;
         });
 
-        // —••• Enkel JS‑validering
         function attachValidation(formId, nameId, startId, endId, budgetId) {
           const form = document.getElementById(formId);
           form.addEventListener('submit', e => {

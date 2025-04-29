@@ -3,6 +3,8 @@ using System.Linq;
 using WebApp.Data;
 using WebApp.Models;
 
+// Implementerar IProjectService med Entity Framework Core för att hantera Projekt-entiteter i databasen. 
+
 namespace WebApp.Services
 {
     public class ProjectService : IProjectService

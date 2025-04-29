@@ -5,24 +5,25 @@ using WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Enstaka kommentarer för att förklara vad koden är när jag tagit hjälp av AI. 
+
 // EF + SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// ? Se till att omdirigering vid 401 går till din login-sida
+//  Ser till att omdirigering vid 401 går till min login-sida
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Auth/Login";
     options.AccessDeniedPath = "/Auth/Login";
 });
 
-// Din service
+// Min service
 builder.Services.AddScoped<IProjectService, ProjectService>();
 
 builder.Services.AddControllersWithViews();
@@ -33,7 +34,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-// Viktig ordning!
 app.UseAuthentication();
 app.UseAuthorization();
 
